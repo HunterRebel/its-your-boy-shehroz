@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To you, on August 30</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;1,400;1,500&family=Literata:ital,wght@0,300;0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  --paper:#F6F1E6;
+  --paper-deep:#EFE7D6;
+  --ink:#26241C;
+  --ink-soft:rgba(38,36,28,.62);
+  --ink-faint:rgba(38,36,28,.36);
+  --night:#1C2233;
+  --night-deep:#141826;
+  --star:#D8AE5C;
+  --star-soft:rgba(216,174,92,.5);
+  --paper-on-night:#EDE6D4;
+  --paper-on-night-soft:rgba(237,230,212,.6);
+  --rose:#B15D5F;
+}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Literata',serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';
+  position:fixed;inset:0;pointer-events:none;z-index:5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 32px;}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:none;}
+
+/* thread — the signature element, a single line that grows as the letter
+   is read, tying two distant points together */
+#thread-wrap{position:fixed;top:0;left:0;bottom:0;width:1px;z-index:1;pointer-events:none;display:none;}
+#thread-line{width:1px;height:100%;background:linear-gradient(to bottom, var(--star) 0%, var(--star) var(--prog,0%), transparent var(--prog,0%));transition:background .1s linear;}
+@media(min-width:900px){
+  #thread-wrap{display:block;left:calc(50% - 400px);}
+}
+
+/* ─── PAPER SECTIONS ─── */
+.paper{background:var(--paper);position:relative;padding:96px 0;}
+.paper.deep{background:var(--paper-deep);}
+
+.dateline{
+  font-family:'Courier Prime',monospace;
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:40px;
+}
+.dateline::after{content:'';flex:1;height:1px;background:var(--ink-faint);opacity:.4;}
+
+.lede{
+  font-family:'Newsreader',serif;font-style:italic;font-weight:400;
+  font-size:clamp(24px,3.4vw,32px);
+  line-height:1.5;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+
+.body-text p{
+  font-size:18px;line-height:1.85;
+  color:var(--ink-soft);
+  margin-bottom:22px;
+  max-width:56ch;
+}
+.body-text p strong{color:var(--ink);font-weight:500;}
+.body-text p em{font-style:italic;color:var(--ink);}
+
+.small-title{
+  font-family:'Courier Prime',monospace;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-faint);
+  margin-bottom:18px;
+}
+
+/* the hopes / blessings list — connected by small circles instead of numbers,
+   since these aren't a sequence, they're a gathering */
+.gather{list-style:none;display:flex;flex-direction:column;gap:0;margin:8px 0 4px;}
+.gather li{
+  position:relative;
+  padding:16px 0 16px 30px;
+  border-bottom:1px solid rgba(38,36,28,.09);
+  font-family:'Literata',serif;font-size:17px;line-height:1.7;
+  color:var(--ink-soft);
+}
+.gather li:first-child{padding-top:0;}
+.gather li::before{
+  content:'';position:absolute;left:2px;top:25px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--star);
+}
+.gather li strong{color:var(--ink);font-weight:500;font-style:italic;}
+
+/* ─── NIGHT SECTIONS ─── */
+.night{
+  background:var(--night);
+  color:var(--paper-on-night);
+  padding:80px 0;
+  min-height:78vh;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.night.deep{background:var(--night-deep);}
+#stars-canvas{position:absolute;inset:0;z-index:0;}
+.night .wrap{position:relative;z-index:1;}
+
+.night-eyebrow{
+  font-family:'Courier Prime',monospace;
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--paper-on-night-soft);
+  margin-bottom:24px;
+}
+
+.night-huge{
+  font-family:'Newsreader',serif;font-weight:300;
+  font-size:clamp(48px,10vw,110px);
+  line-height:.98;letter-spacing:-.01em;
+  color:var(--paper-on-night);
+}
+.night-huge em{color:var(--star);font-style:italic;font-weight:400;}
+
+.night-sub{
+  font-family:'Newsreader',serif;font-style:italic;font-weight:300;
+  font-size:clamp(18px,2.4vw,24px);
+  color:var(--paper-on-night-soft);
+  margin-top:22px;
+  max-width:46ch;
+}
+
+/* urdu couplets */
+.urdu{
+  font-family:'Noto Nastaliq Urdu',serif;
+  direction:rtl;text-align:right;
+  font-size:clamp(24px,3.6vw,34px);
+  line-height:2.1;
+  color:var(--paper-on-night);
+  margin:32px 0 18px;
+}
+.urdu-translation{
+  font-family:'Newsreader',serif;font-style:italic;font-weight:300;
+  font-size:15px;color:var(--paper-on-night-soft);
+  border-left:1px solid var(--star-soft);
+  padding-left:16px;
+  max-width:40ch;
+}
+
+/* the finale constellation */
+.finale-mark{
+  display:flex;align-items:center;gap:14px;margin-bottom:28px;
+}
+.finale-dot{width:6px;height:6px;border-radius:50%;background:var(--star);}
+.finale-line{width:52px;height:1px;background:var(--star-soft);}
+
+/* ps / closing supportive note */
+.ps{
+  border-top:1px solid rgba(38,36,28,.15);
+  margin-top:56px;padding-top:36px;
+}
+.ps-label{
+  font-family:'Courier Prime',monospace;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:14px;
+}
+.ps p{
+  font-family:'Literata',serif;font-style:italic;font-weight:400;
+  font-size:17px;line-height:1.85;
+  color:var(--ink-soft);
+  max-width:54ch;
+}
+.ps p strong{color:var(--ink);font-weight:500;font-style:normal;}
+
+.sign{
+  font-family:'Newsreader',serif;font-style:italic;font-weight:400;
+  font-size:20px;color:var(--ink);
+  margin-top:44px;
+}
+
+/* ─── NOTE CARDS ─── */
+.notes-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:30px 26px;margin-top:12px;
+}
+.note-card{
+  background:var(--paper);
+  border:1px solid rgba(38,36,28,.13);
+  padding:30px 24px 24px;
+  position:relative;
+  box-shadow:0 14px 30px -22px rgba(38,36,28,.55);
+}
+.note-card::before{
+  content:'';position:absolute;top:-11px;left:50%;
+  transform:translateX(-50%) rotate(-3deg);
+  width:56px;height:20px;
+  background:rgba(216,174,92,.4);
+}
+.note-card:nth-child(3n+1){transform:rotate(-.8deg);}
+.note-card:nth-child(3n+2){transform:rotate(.6deg);}
+.note-card:nth-child(3n){transform:rotate(-.3deg);}
+.note-label{
+  font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:12px;
+}
+.note-text{
+  font-family:'Literata',serif;font-style:italic;font-size:16px;line-height:1.7;
+  color:var(--ink);
+}
+
+/* permission cards */
+.perm-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:2px;margin-top:8px;border:1px solid rgba(38,36,28,.13);
+}
+.perm-card{
+  background:var(--paper);
+  padding:26px 22px;
+  border-right:1px solid rgba(38,36,28,.13);
+  border-bottom:1px solid rgba(38,36,28,.13);
+}
+.perm-card::before{
+  content:'';display:block;width:16px;height:1px;background:var(--rose);margin-bottom:14px;
+}
+.perm-text{
+  font-family:'Newsreader',serif;font-weight:400;font-size:17px;line-height:1.55;color:var(--ink);
+}
+.perm-text em{color:var(--rose);font-style:italic;}
+
+/* questions list */
+.q-list{margin-top:8px;}
+.q-item{
+  display:flex;gap:18px;
+  padding:22px 0;
+  border-bottom:1px solid rgba(38,36,28,.09);
+}
+.q-item:first-child{padding-top:0;}
+.q-mark{
+  font-family:'Newsreader',serif;font-style:italic;font-size:22px;color:var(--star);
+  flex-shrink:0;line-height:1.4;
+}
+.q-text{
+  font-family:'Literata',serif;font-size:17px;line-height:1.7;color:var(--ink-soft);
+}
+
+/* time capsule */
+.capsule{
+  border:1px solid rgba(38,36,28,.2);
+  padding:36px 32px;
+  margin-top:44px;
+  position:relative;
+}
+.capsule-seal{
+  width:14px;height:14px;border-radius:50%;background:var(--rose);
+  margin-bottom:18px;
+}
+.capsule-label{
+  font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:14px;
+}
+.capsule p{
+  font-family:'Literata',serif;font-size:16.5px;line-height:1.8;color:var(--ink-soft);max-width:52ch;
+}
+.capsule p strong{color:var(--ink);font-weight:500;}
+
+/* chapter numerals — recurring motif tying the letter to "chapters" */
+.chapter-num{
+  font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.12em;
+  color:var(--ink-faint);margin-bottom:10px;
+}
+.night .chapter-num{color:var(--paper-on-night-soft);}
+
+/* ─── INDEX / TABLE OF CONTENTS ─── */
+.index-list{margin-top:8px;}
+.index-item{
+  display:flex;align-items:baseline;gap:10px;
+  padding:11px 0;
+  text-decoration:none;color:inherit;
+  border-bottom:1px solid rgba(38,36,28,.07);
+  cursor:pointer;
+}
+.index-num{
+  font-family:'Courier Prime',monospace;font-size:13px;color:var(--star);
+  min-width:26px;
+}
+.index-name{
+  font-family:'Literata',serif;font-size:16px;color:var(--ink-soft);
+  flex-shrink:0;
+}
+.index-dots{
+  flex:1;border-bottom:1px dotted rgba(38,36,28,.3);
+  transform:translateY(-4px);
+}
+
+/* ─── STATS ─── */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:2px;margin-top:8px;border:1px solid rgba(38,36,28,.13);
+}
+.stat-card{
+  background:var(--paper);padding:26px 22px;
+  border-right:1px solid rgba(38,36,28,.13);
+  border-bottom:1px solid rgba(38,36,28,.13);
+}
+.stat-num{
+  font-family:'Newsreader',serif;font-weight:300;font-size:clamp(30px,4vw,42px);
+  color:var(--ink);line-height:1;
+}
+.stat-label{
+  font-family:'Courier Prime',monospace;font-size:10.5px;letter-spacing:.08em;
+  color:var(--ink-faint);margin-top:10px;line-height:1.5;
+}
+
+/* ─── STAMPS ─── */
+.stamp-grid{
+  display:flex;flex-wrap:wrap;gap:22px;margin-top:16px;
+}
+.stamp{
+  width:126px;height:126px;border-radius:50%;
+  border:1.5px dashed var(--star);
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:14px;
+  transform:rotate(-4deg);
+}
+.stamp:nth-child(3n+2){transform:rotate(3deg);}
+.stamp:nth-child(3n){transform:rotate(-1deg);}
+.stamp-text{
+  font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.04em;
+  color:var(--ink);line-height:1.5;text-transform:uppercase;
+}
+
+/* ─── MARGIN NOTE ─── */
+.margin-note{
+  background:var(--paper-deep);
+  border:1px solid rgba(38,36,28,.13);
+  padding:20px 22px;
+  max-width:340px;
+  margin:8px 0 28px auto;
+  transform:rotate(1.2deg);
+  box-shadow:0 14px 26px -20px rgba(38,36,28,.5);
+}
+.margin-note p{
+  font-family:'Literata',serif;font-style:italic;font-size:14.5px;line-height:1.7;color:var(--ink-soft);
+  margin:0;
+}
+
+.night-tight{padding:56px 0;min-height:52vh;}
+
+/* ─── STATEMENT (brutalist beat, restyled) ─── */
+.statement-h{
+  font-family:'Newsreader',serif;font-weight:600;font-style:normal;
+  font-size:clamp(40px,8vw,92px);line-height:.98;letter-spacing:-.01em;
+  color:var(--ink);
+}
+.statement-h .accent{color:var(--star);}
+.statement-lede{
+  font-family:'Literata',serif;font-size:18px;line-height:1.85;color:var(--ink-soft);
+  max-width:52ch;margin-top:28px;
+}
+
+/* ─── FACT ROWS ─── */
+.fact-list{
+  display:flex;flex-direction:column;gap:1px;
+  background:rgba(38,36,28,.13);border:1px solid rgba(38,36,28,.13);
+  margin-top:8px;
+}
+.fact-row{
+  background:var(--paper);padding:26px 26px;
+  display:grid;grid-template-columns:38px 1fr;gap:18px;align-items:start;
+  position:relative;
+}
+.fact-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--star);opacity:0;transition:opacity .3s;
+}
+.fact-row:hover::before{opacity:1;}
+.fact-index{font-family:'Courier Prime',monospace;font-size:12px;color:var(--ink-faint);padding-top:3px;}
+.fact-h{font-family:'Newsreader',serif;font-weight:500;font-size:18px;color:var(--ink);margin-bottom:6px;}
+.fact-p{font-family:'Literata',serif;font-size:15px;line-height:1.7;color:var(--ink-soft);}
+
+.foot-space{height:14vh;}
+
+@media(max-width:600px){
+  .paper{padding:64px 0;}
+  .night{padding:56px 0;min-height:70vh;}
+  .night-tight{min-height:44vh;}
+  .wrap{padding:0 24px;}
+  .body-text p{font-size:16.5px;}
+}
+</style>
+</head>
+<body>
+
+<div id="thread-wrap"><div id="thread-line"></div></div>
+
+<!-- ── OPENING ── -->
+<section class="paper" id="ch-1">
+  <div class="wrap">
+    <div class="chapter-num rv">I</div>
+    <div class="dateline rv">Written August 30</div>
+    <p class="lede rv">There are people we know every day, people we lose touch with, and then there are those strange few who somehow remain somewhere in the quiet corners of our memory without even trying.</p>
+    <div class="body-text">
+      <p class="rv">You're probably one of those people.</p>
+      <p class="rv">It's funny, isn't it? We haven't really talked in about a year. Maybe by now, you barely remember the conversations we had, and honestly, I can't claim that I know the person you are today either. We've both lived an entire year of things the other person knows nothing about. New days, new thoughts, new people, new disappointments, new little victories&nbsp;&hellip; and somewhere in between all of that, we became almost strangers again.</p>
+      <p class="rv">And yet, I remembered your birthday.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── INDEX ── -->
+<section class="paper deep" id="ch-2">
+  <div class="wrap">
+    <div class="chapter-num rv">II</div>
+    <div class="small-title rv">what this letter is about</div>
+    <div class="index-list">
+      <div class="index-item rv" onclick="document.getElementById('ch-3').scrollIntoView({behavior:'smooth'})"><span class="index-num">III</span><span class="index-name">the date that stayed</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-5').scrollIntoView({behavior:'smooth'})"><span class="index-num">V</span><span class="index-name">what I actually hope for you</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-6').scrollIntoView({behavior:'smooth'})"><span class="index-num">VI</span><span class="index-name">while I'm being honest</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-7').scrollIntoView({behavior:'smooth'})"><span class="index-num">VII</span><span class="index-name">a few things that are just true</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-8').scrollIntoView({behavior:'smooth'})"><span class="index-num">VIII</span><span class="index-name">notes gathered along the way</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-9').scrollIntoView({behavior:'smooth'})"><span class="index-num">IX</span><span class="index-name">a language english can't hold</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-12').scrollIntoView({behavior:'smooth'})"><span class="index-num">XII</span><span class="index-name">a few things I wish for you</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-15').scrollIntoView({behavior:'smooth'})"><span class="index-num">XV</span><span class="index-name">worth remembering</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-16').scrollIntoView({behavior:'smooth'})"><span class="index-num">XVI</span><span class="index-name">the letter, by the numbers</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-17').scrollIntoView({behavior:'smooth'})"><span class="index-num">XVII</span><span class="index-name">certified</span><span class="index-dots"></span></div>
+      <div class="index-item rv" onclick="document.getElementById('ch-20').scrollIntoView({behavior:'smooth'})"><span class="index-num">XX</span><span class="index-name">questions I'd ask</span><span class="index-dots"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NIGHT: THE DATE ── -->
+<section class="night" id="ch-3">
+  <canvas id="stars-canvas"></canvas>
+  <div class="wrap">
+    <div class="chapter-num rv">III</div>
+    <div class="night-eyebrow rv">// a date that stayed</div>
+    <div class="night-huge rv">30th<br><em>August</em></div>
+  </div>
+</section>
+
+<!-- ── MIDDLE ── -->
+<section class="paper" id="ch-4">
+  <div class="wrap body-text">
+    <div class="chapter-num rv">IV</div>
+    <p class="rv">I don't know why some dates stay in your mind while hundreds of others disappear. Maybe not every person is meant to remain close; some people simply cross our lives for a short distance, leave behind a small memory, and continue walking in a direction we may never know.</p>
+    <p class="rv">So today, I'm not going to write one of those usual birthday wishes about <em>"success, happiness and endless blessings"</em> and disappear after sending it.</p>
+    <div class="margin-note rv"><p>(if you're wondering why a stranger is writing you a letter this earnest &mdash; I don't fully know either. Some feelings just insist on being written down.)</p></div>
+  </div>
+</section>
+
+<!-- ── THE HOPES ── -->
+<section class="paper deep" id="ch-5">
+  <div class="wrap">
+    <div class="chapter-num rv">V</div>
+    <div class="small-title rv">what I actually hope for you</div>
+    <ul class="gather">
+      <li class="rv">I genuinely hope this next year of your life is <strong>kinder to you</strong> than the last one.</li>
+      <li class="rv">I hope you become someone your younger self would look at with a <strong>quiet sense of pride</strong>.</li>
+      <li class="rv">I hope the things you never tell anyone eventually <strong>become lighter</strong>.</li>
+      <li class="rv">I hope the dreams you're too afraid to speak about <strong>find their way toward you</strong>.</li>
+      <li class="rv">I hope you meet people who understand the parts of you that you usually keep hidden &mdash; not because you explain them perfectly, but because <strong>they simply notice</strong>.</li>
+    </ul>
+    <div class="body-text" style="margin-top:32px;">
+      <p class="rv">And if this year brings you a few difficult nights, I hope you remember that a difficult chapter is still only a chapter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO YOU ARE (STATEMENT) ── -->
+<section class="paper" id="ch-6">
+  <div class="wrap">
+    <div class="chapter-num rv">VI</div>
+    <div class="small-title rv">while I'm being honest</div>
+    <h2 class="statement-h rv">You are the kind of<br>guy people <span class="accent">remember.</span></h2>
+    <p class="statement-lede rv">Not because you tried to be. Not because you worked at an impression. Because of something that just <em>is</em> &mdash; the specific way you show up, the way you move through a room, the way things are a little more interesting for you being in them. Birthdays are just the world's excuse to say what it already knows about you. Today it's saying it out loud.</p>
+  </div>
+</section>
+
+<!-- ── FACTS ── -->
+<section class="paper deep" id="ch-7">
+  <div class="wrap">
+    <div class="chapter-num rv">VII</div>
+    <div class="small-title rv">a few things that are just true</div>
+    <div class="fact-list">
+      <div class="fact-row rv"><div class="fact-index">01</div><div><div class="fact-h">You change the room, quietly</div><div class="fact-p">You don't announce yourself when you walk in, but the room is usually different after you've been in it. That's not an act. It's just what happens when someone is actually paying attention.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">02</div><div><div class="fact-h">You don't do things halfway</div><div class="fact-p">When you commit to something, you commit to it fully. Not everyone can honestly say that about themselves. You can.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">03</div><div><div class="fact-h">You hold things together</div><div class="fact-p">On the days things fall apart, you're usually the reason people keep going. That's not a mood you're in every once in a while. It's a habit you've built without asking for credit.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">04</div><div><div class="fact-h">You say what's real</div><div class="fact-p">No performance, no softening it past recognition. People know where they stand with you. That's rarer than it should be, and it matters more than you probably think.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">05</div><div><div class="fact-h">You're playing the long game</div><div class="fact-p">You're not chasing quick wins. You're building something that's still going to matter in ten years, even on the days nobody's clapping for it.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">06</div><div><div class="fact-h">You don't leave</div><div class="fact-p">The people who matter to you know they can count on that. You don't disappear when things get complicated. That kind of loyalty is worth more than most people ever say out loud.</div></div></div>
+      <div class="fact-row rv"><div class="fact-index">07</div><div><div class="fact-h">You notice things first</div><div class="fact-p">You read rooms, situations, people, before anyone else catches up. You probably don't think of it as a skill. It is one.</div></div></div>
+    </div>
+    <div class="body-text" style="margin-top:32px;">
+      <p class="rv">None of that needs proving to me. I hope this year gives you every reason to believe it about yourself, too. Be strong on the days that ask for it, and be gentle with yourself on the days that ask for that instead &mdash; you're allowed both. Be the man you're already quietly becoming. You don't have to earn the rest of what's coming for you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── NOTES GATHERED ALONG THE WAY ── -->
+<section class="paper" id="ch-8">
+  <div class="wrap">
+    <div class="chapter-num rv">VIII</div>
+    <div class="small-title rv">notes gathered along the way</div>
+    <div class="notes-grid">
+      <div class="note-card rv"><div class="note-label">on distance</div><div class="note-text">Distance doesn't erase a person. It just puts them in a drawer instead of on the desk. Still there. Still yours whenever you open it.</div></div>
+      <div class="note-card rv"><div class="note-label">on the year you didn't post about</div><div class="note-text">The parts of the year nobody saw are usually the parts that mattered most. Nobody has to see it for it to have counted.</div></div>
+      <div class="note-card rv"><div class="note-label">on being tired</div><div class="note-text">Tired isn't the same as failing. Sometimes it just means you've been carrying something for longer than anyone realized, including you.</div></div>
+      <div class="note-card rv"><div class="note-label">on starting over</div><div class="note-text">Starting over isn't going back to zero. You keep everything you learned the first time. That's not nothing &mdash; that's the whole advantage.</div></div>
+      <div class="note-card rv"><div class="note-label">on the people who left</div><div class="note-text">Some people were only ever meant to walk beside you for a season. That doesn't undo what the season gave you.</div></div>
+      <div class="note-card rv"><div class="note-label">on forgiving yourself</div><div class="note-text">You were doing the best you could with what you knew at the time. That sentence is allowed to apply to you too.</div></div>
+      <div class="note-card rv"><div class="note-label">on plans that changed</div><div class="note-text">The version of this year you planned in January and the version you actually lived are rarely the same. Usually the second one taught you more.</div></div>
+      <div class="note-card rv"><div class="note-label">on the quiet wins</div><div class="note-text">Getting up on the hard mornings. Answering the phone when you didn't want to. Staying, when leaving would've been easier. Those count. Nobody hands out medals for them, but they count.</div></div>
+      <div class="note-card rv"><div class="note-label">on the version nobody's met yet</div><div class="note-text">There's a version of you a year from now who knows things this year's you hasn't learned yet. You're already on your way to becoming them.</div></div>
+      <div class="note-card rv"><div class="note-label">on today</div><div class="note-text">Today doesn't need to be a big day to matter. It just needs to be yours. That's already enough of a reason to mark it.</div></div>
+      <div class="note-card rv"><div class="note-label">on comparing years</div><div class="note-text">This year doesn't have to beat last year to count. Some years are for building quietly underground, where nothing shows yet.</div></div>
+      <div class="note-card rv"><div class="note-label">on the apology you never got</div><div class="note-text">You're allowed to stop waiting for it and heal anyway. Closure is something you're also allowed to give yourself.</div></div>
+      <div class="note-card rv"><div class="note-label">on small rooms</div><div class="note-text">Not every year needs an audience. Some of the most important growing happens in rooms nobody else ever walks into.</div></div>
+      <div class="note-card rv"><div class="note-label">on the thing you almost said</div><div class="note-text">If it's still sitting in your chest a year later, it probably still wants saying. There's no expiry date on being honest.</div></div>
+      <div class="note-card rv"><div class="note-label">on becoming someone new</div><div class="note-text">You don't owe anyone the version of you they met first. People are allowed to keep meeting you, again and again.</div></div>
+      <div class="note-card rv"><div class="note-label">on the ordinary tuesdays</div><div class="note-text">Nobody writes letters about the ordinary tuesdays, but they're usually where a life is actually being lived.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NIGHT: URDU 1 ── -->
+<section class="night deep night-tight" id="ch-9">
+  <canvas id="stars-canvas-2"></canvas>
+  <div class="wrap">
+    <div class="chapter-num rv">IX</div>
+    <div class="night-eyebrow rv">// a language for what english can't hold</div>
+    <p class="urdu rv">زندگی کبھی ایک ہی موسم میں نہیں رہتی۔<br>کچھ راتیں لمبی ضرور ہوتی ہیں، مگر ہمیشہ نہیں رہتیں۔</p>
+    <p class="urdu-translation rv">Life never stays in one season. Some nights are long &mdash; but they don't last forever.</p>
+  </div>
+</section>
+
+<!-- ── MAYBE WE'LL TALK ── -->
+<section class="paper" id="ch-10">
+  <div class="wrap body-text">
+    <div class="chapter-num rv">X</div>
+    <p class="rv">Maybe we'll talk again someday. Maybe we won't.</p>
+    <p class="rv">Maybe this message will become just another notification in your inbox, something you read once and forget. And that's completely okay.</p>
+    <p class="rv">Because not every good wish needs a long history behind it. Sometimes, a person can simply wish another person well &mdash; even from a distance, even after becoming strangers, even without knowing what life looks like on the other side of the screen.</p>
+    <p class="rv">So, on 30th August &mdash;</p>
+  </div>
+</section>
+
+<!-- ── NIGHT: HAPPY BIRTHDAY 1 ── -->
+<section class="night" id="ch-11">
+  <canvas id="stars-canvas-3"></canvas>
+  <div class="wrap">
+    <div class="chapter-num rv">XI</div>
+    <div class="night-huge rv">Happy<br><em>Birthday.</em></div>
+    <p class="night-sub rv">Not just "happy birthday" because it's your birthday, but genuinely &hellip; I hope life gives you reasons to be grateful for the person you're becoming.</p>
+  </div>
+</section>
+
+<!-- ── THE BLESSINGS ── -->
+<section class="paper deep" id="ch-12">
+  <div class="wrap">
+    <div class="chapter-num rv">XII</div>
+    <div class="small-title rv">a few things I wish for you</div>
+    <ul class="gather">
+      <li class="rv">May you have the <strong>courage</strong> to leave what no longer belongs in your life, the <strong>patience</strong> to wait for what does, and the <strong>wisdom</strong> to know the difference.</li>
+      <li class="rv">May your failures <strong>teach you without defining you.</strong></li>
+      <li class="rv">May your successes <strong>humble you without changing you.</strong></li>
+      <li class="rv">May the people you choose <strong>bring peace rather than confusion.</strong></li>
+      <li class="rv">May you never have to <strong>beg for a place</strong> in anyone's life.</li>
+      <li class="rv">And may you never become so busy surviving life that you forget to <strong>actually live it.</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── NIGHT: URDU 2 ── -->
+<section class="night deep night-tight" id="ch-13">
+  <canvas id="stars-canvas-4"></canvas>
+  <div class="wrap">
+    <div class="chapter-num rv">XIII</div>
+    <div class="night-eyebrow rv">// when the noise gets loud</div>
+    <p class="urdu rv">اور اگر کبھی زندگی کے شور میں تم خود کو بھول جاؤ،<br>تو امید ہے کوئی نہ کوئی لمحہ تمہیں دوبارہ تم تک لے آئے۔</p>
+    <p class="urdu-translation rv">And if you ever lose yourself in the noise of life, I hope some quiet moment brings you back to you.</p>
+  </div>
+</section>
+
+<!-- ── I DON'T KNOW WHERE YOU ARE ── -->
+<section class="paper" id="ch-14">
+  <div class="wrap body-text">
+    <div class="chapter-num rv">XIV</div>
+    <p class="rv">I don't know where you are in life right now. I don't know what you're fighting, what you're building, what you're hoping for, or what you've quietly given up on.</p>
+    <p class="rv">But wherever you are &mdash;</p>
+    <ul class="gather" style="margin-top:4px;">
+      <li class="rv">I hope you're <strong>okay.</strong></li>
+      <li class="rv">I hope you're <strong>growing.</strong></li>
+      <li class="rv">I hope you're <strong>finding your way.</strong></li>
+    </ul>
+    <p class="rv" style="margin-top:28px;">And perhaps the strangest part of this whole message is that we're almost strangers writing memories into each other's lives without even realizing it.</p>
+    <p class="rv">Still &hellip; 30th August deserves a little pause.</p>
+  </div>
+</section>
+
+<!-- ── A FEW THINGS WORTH REMEMBERING ── -->
+<section class="paper deep" id="ch-15">
+  <div class="wrap">
+    <div class="chapter-num rv">XV</div>
+    <div class="small-title rv">a few things worth remembering</div>
+    <div class="perm-grid">
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>rest</em> before you're finished. Rest isn't the opposite of progress.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>not have the answer</em> yet. Some questions take years, not evenings.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>ask for help</em>. Needing someone isn't the same as failing on your own.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>change your mind</em>, even about things you were once certain of.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>outgrow</em> people, plans, and versions of yourself that used to fit.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>say it plainly</em> when something is heavy, instead of dressing it up so it's easier for other people to hear.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>want good things</em> for yourself, without immediately explaining why you deserve them.</div></div>
+      <div class="perm-card rv"><div class="perm-text">It's okay to <em>let this year be different</em> from the last one. It already is, just by arriving.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE LETTER, BY THE NUMBERS ── -->
+<section class="paper" id="ch-16">
+  <div class="wrap">
+    <div class="chapter-num rv">XVI</div>
+    <div class="small-title rv">the letter, by the numbers</div>
+    <div class="stats-grid">
+      <div class="stat-card rv"><div class="stat-num">~365</div><div class="stat-label">days since we<br>last really talked</div></div>
+      <div class="stat-card rv"><div class="stat-num">2</div><div class="stat-label">languages it took<br>to say this properly</div></div>
+      <div class="stat-card rv"><div class="stat-num">18</div><div class="stat-label">hopes written<br>down for you</div></div>
+      <div class="stat-card rv"><div class="stat-num">1</div><div class="stat-label">date that stayed<br>in my memory</div></div>
+      <div class="stat-card rv"><div class="stat-num">0</div><div class="stat-label">conditions<br>attached</div></div>
+      <div class="stat-card rv"><div class="stat-num">&infin;</div><div class="stat-label">chances I hope<br>you give yourself</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFIED ── -->
+<section class="paper deep" id="ch-17">
+  <div class="wrap">
+    <div class="chapter-num rv">XVII</div>
+    <div class="small-title rv">certified</div>
+    <div class="stamp-grid">
+      <div class="stamp rv"><div class="stamp-text">still thought of &mdash; verified</div></div>
+      <div class="stamp rv"><div class="stamp-text">allowed to rest &mdash; approved</div></div>
+      <div class="stamp rv"><div class="stamp-text">worth the wait &mdash; confirmed</div></div>
+      <div class="stamp rv"><div class="stamp-text">one of the good ones &mdash; on record</div></div>
+      <div class="stamp rv"><div class="stamp-text">still growing &mdash; in progress</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SO HERE'S TO ── -->
+<section class="paper deep" id="ch-18">
+  <div class="wrap">
+    <div class="chapter-num rv">XVIII</div>
+    <p class="lede rv" style="font-size:clamp(22px,3vw,28px);">So here's to another year of your existence &mdash;</p>
+    <ul class="gather">
+      <li class="rv">to <strong>the person you were,</strong></li>
+      <li class="rv">the <strong>person you are,</strong></li>
+      <li class="rv">and the <strong>person you haven't become yet.</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── FINALE NIGHT ── -->
+<section class="night" id="ch-19">
+  <canvas id="stars-canvas-5"></canvas>
+  <div class="wrap">
+    <div class="chapter-num rv">XIX</div>
+    <div class="finale-mark rv"><div class="finale-dot"></div><div class="finale-line"></div><div class="finale-dot"></div></div>
+    <div class="night-huge rv">Happy Birthday,<br><em>stranger&#8209;friend.</em></div>
+    <p class="night-sub rv">May the coming year surprise you in all the ways you secretly wished for but never said out loud.</p>
+  </div>
+</section>
+
+<!-- ── QUESTIONS I'D ASK ── -->
+<section class="paper" id="ch-20">
+  <div class="wrap">
+    <div class="chapter-num rv">XX</div>
+    <div class="small-title rv">questions I'd ask, if we still talked</div>
+    <div class="q-list">
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">What's something you're proud of this year that nobody else knows about?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">Is there a version of yourself from a few years ago you'd want to sit down with, just to tell them it worked out?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">What's something you've quietly stopped hoping for that you wish you hadn't?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">Who's someone that's shown up for you this year without being asked?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">What would this next year look like if you weren't worried about getting it wrong?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">Is there something you keep meaning to say to someone, that you haven't said yet?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">What's a rule you set for yourself this year that you're glad you kept?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">If this year had a smell, a song, or a single color, what would it be?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">What's something small that made an ordinary day feel like a good one?</div></div>
+      <div class="q-item rv"><div class="q-mark">&mdash;</div><div class="q-text">A year from today, what do you hope you're no longer worrying about?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section class="paper" id="ch-21">
+  <div class="wrap body-text">
+    <div class="chapter-num rv">XXI</div>
+    <p class="rv">And if nothing else &hellip;</p>
+    <p class="rv">I hope, years from now, when you look back at this particular chapter of your life, you realize that you survived more than you thought you would, became more than you expected to become, and somehow &hellip; made it beautifully farther than you once imagined.</p>
+    <p class="lede rv" style="margin-top:8px;">Happy Birthday. 🤍</p>
+
+    <div class="ps">
+      <div class="ps-label rv">P.S.</div>
+      <p class="rv">And one more thing, since I'm already this far in &mdash; you don't owe anyone a version of yourself that has it all figured out. If there's ever a night when things feel heavier than they should, you don't have to carry it alone, and you don't have to explain it perfectly for it to be worth saying out loud. Whatever you're chasing, whatever you quietly think you don't deserve yet &mdash; <strong>you do.</strong> You always did. Don't be afraid of where life is taking you. Be curious about it instead.</p>
+    </div>
+
+    <div class="capsule rv">
+      <div class="capsule-seal"></div>
+      <div class="capsule-label">to be reopened &mdash; august 30, next year</div>
+      <p>If you ever come back to this, even by accident, do one thing for me: notice what's different. Notice what you were carrying this year that you're not carrying anymore. Notice what you were hoping for that actually found you. <strong>That's the whole point of writing something down</strong> &mdash; not to freeze a moment, but to give you something to measure the distance against.</p>
+    </div>
+
+    <p class="sign rv">&mdash; a stranger who remembers</p>
+  </div>
+</section>
+
+<div class="foot-space"></div>
+
+<script>
+function starsCanvas(id,count){
+  const c=document.getElementById(id);
+  if(!c)return;
+  const x=c.getContext('2d');
+  let w,h;
+  function r(){
+    const rect=c.parentElement.getBoundingClientRect();
+    w=c.width=rect.width;h=c.height=rect.height;
+  }
+  r();window.addEventListener('resize',r);
+  const stars=Array.from({length:count},()=>({
+    x:Math.random(),y:Math.random(),rad:Math.random()*1.1+.3,
+    a:Math.random()*.5+.15,spd:Math.random()*.004+.001,dir:1
+  }));
+  (function tick(){
+    x.clearRect(0,0,w,h);
+    stars.forEach(s=>{
+      s.a+=s.spd*s.dir;
+      if(s.a>.7||s.a<.1)s.dir*=-1;
+      x.beginPath();
+      x.arc(s.x*w,s.y*h,s.rad,0,Math.PI*2);
+      x.fillStyle='rgba(216,174,92,'+s.a+')';
+      x.fill();
+    });
+    requestAnimationFrame(tick);
+  })();
+}
+['stars-canvas','stars-canvas-2','stars-canvas-3','stars-canvas-4','stars-canvas-5'].forEach(id=>starsCanvas(id,70));
+
+const obs=new IntersectionObserver(
+  entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),
+  {threshold:.08}
+);
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+const threadLine=document.getElementById('thread-line');
+function updateThread(){
+  const doc=document.documentElement;
+  const scrolled=doc.scrollTop||document.body.scrollTop;
+  const max=doc.scrollHeight-doc.clientHeight;
+  const pct=max>0?Math.min(100,(scrolled/max)*100):0;
+  if(threadLine)threadLine.style.setProperty('--prog',pct+'%');
+}
+window.addEventListener('scroll',updateThread);
+updateThread();
+</script>
+</body>
+</html>
